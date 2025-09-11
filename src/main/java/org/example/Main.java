@@ -1,8 +1,6 @@
 package org.example;
 
-import org.example.bankAccounts.BankAccount;
 import org.example.bankAccounts.BaseBankAccount;
-import org.example.bankAccounts.SavingBankAccount;
 import org.example.bankAccounts.StudentBankAccount;
 import org.example.people.BaseBankAccountOwner;
 import org.example.people.Student;
@@ -28,7 +26,7 @@ public class Main {
         }
 
         }catch(Exception e){
-
+            System.out.println(e.getMessage());
         }
 
 
