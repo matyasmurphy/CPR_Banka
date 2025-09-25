@@ -7,8 +7,9 @@ public class StudentBankAccount extends BaseBankAccount{
 
     private String school;
 
-    public StudentBankAccount(String uuid, String accountNumber, BaseBankAccountOwner owner, double balance) {
+    public StudentBankAccount(String uuid, String accountNumber, BaseBankAccountOwner owner, double balance, String school) {
         super(uuid, accountNumber, owner, balance);
+        this.school = school;
     }
 
     public String getSchool() {
