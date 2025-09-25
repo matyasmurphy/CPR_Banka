@@ -34,6 +34,10 @@ public class BaseBankAccount {
         return balance;
     }
 
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+    /*
     public void addBalance(double balance) {
         this.balance += balance;
     }
@@ -46,4 +50,5 @@ public class BaseBankAccount {
 
         this.balance = subtract;
     }
+     */
 }
