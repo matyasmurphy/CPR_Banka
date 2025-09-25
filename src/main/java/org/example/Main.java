@@ -12,7 +12,7 @@ public class Main {
 
         try{
             BaseBankAccountOwner owner = new Student("O-123", "Tomas", "Krtek", "Delta");
-            BaseBankAccount studentAccount = new StudentBankAccount("A-123", "123", owner, 505);
+            BaseBankAccount studentAccount = new StudentBankAccount("A-123", "123", owner, 505, "Delta");
 
         if (owner instanceof Student) {
             System.out.println("Uuid: " + owner.getUuid());
