@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.bankAccounts.BaseBankAccount;
 import org.example.bankAccounts.StudentBankAccount;
+import org.example.numGenerator.NumberGenerator;
 import org.example.people.BaseBankAccountOwner;
 import org.example.people.Student;
 
@@ -10,9 +11,10 @@ import org.example.people.Student;
 public class Main {
     public static void main(String[] args) {
 
+        String accountNumber = String.valueOf(NumberGenerator.GenerateNumber());
         try{
             BaseBankAccountOwner owner = new Student("O-123", "Tomas", "Krtek", "Delta");
-            BaseBankAccount studentAccount = new StudentBankAccount("A-123", "123", owner, 505, "Delta");
+            BaseBankAccount studentAccount = new StudentBankAccount("A-123", accountNumber, owner, 505, "Delta");
 
         if (owner instanceof Student) {
             System.out.println("Uuid: " + owner.getUuid());
