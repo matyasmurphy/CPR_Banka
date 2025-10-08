@@ -1,12 +1,10 @@
 package org.example;
 
 import org.example.bankAccounts.BaseBankAccount;
-import org.example.bankAccounts.StudentBankAccount;
 import org.example.factories.BankAccountFactory;
 import org.example.factories.CustomerFactory;
 import org.example.numGenerator.NumberGenerator;
-import org.example.people.BaseBankAccountOwner;
-import org.example.people.Student;
+import org.example.people.BasePerson;
 import org.example.service.BankAccountService;
 import org.example.service.VerifyBankAccount;
 
@@ -23,7 +21,7 @@ public class Main {
             CustomerFactory customerFactory = new CustomerFactory();
             VerifyBankAccount verifyBankAccount = new VerifyBankAccount();
 
-            BaseBankAccountOwner owner = customerFactory.createBaseBankAccountOwner(
+            BasePerson owner = customerFactory.createBaseBankAccountOwner(
                     accountNumber,
                     "John",
                     "Smith"

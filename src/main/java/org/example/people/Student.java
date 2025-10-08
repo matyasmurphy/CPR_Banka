@@ -1,8 +1,6 @@
 package org.example.people;
 
-import org.example.bankAccounts.BaseBankAccount;
-
-public class Student extends BaseBankAccountOwner {
+public class Student extends BasePerson {
 
     private String school;
     public Student(String uuid, String firstName, String lastName, String school) {

@@ -1,7 +1,6 @@
 package org.example.service;
 
 import org.example.bankAccounts.BaseBankAccount;
-import org.example.people.BaseBankAccountOwner;
 
 public class BankAccountService {
 
