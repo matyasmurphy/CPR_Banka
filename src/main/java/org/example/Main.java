@@ -4,7 +4,9 @@ import org.example.bankAccounts.BaseBankAccount;
 import org.example.factories.BankAccountFactory;
 import org.example.factories.CustomerFactory;
 import org.example.numGenerator.NumberGenerator;
+import org.example.people.BankAccountOwner;
 import org.example.people.BasePerson;
+import org.example.serialization.BankAccountOwnerJsonSerializationService;
 import org.example.service.BankAccountService;
 import org.example.service.VerifyBankAccount;
 
@@ -47,6 +49,27 @@ public class Main {
             System.out.println((""));
             bankAccountService.withdraw(account, 50);
             System.out.println("Balance: " + account.getBalance());
+
+            BankAccountOwner bankAccountOwner = customerFactory.createBankAccountOwner(
+                    "owner-456",
+                    "987654321",
+                    owner,  // Použijeme stejného majitele jako u účtu
+                    account.getBalance()  // Použijeme aktuální zůstatek
+            );
+
+            BankAccountOwnerJsonSerializationService serializationService =
+                    new BankAccountOwnerJsonSerializationService();
+
+            System.out.println("\n1) SERIALIZACE DO JSON:");
+            String jsonData = serializationService.serialize(bankAccountOwner);
+            System.out.println("JSON výstup:");
+            System.out.println(jsonData);
+
+            System.out.println("\n2) SERIALIZACE DO XML:");
+            String xmlData = serializationService.serializeXml(bankAccountOwner);
+            System.out.println("XML výstup:");
+            System.out.println(xmlData);
+
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
