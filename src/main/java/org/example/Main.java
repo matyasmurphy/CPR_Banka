@@ -70,7 +70,6 @@ public class Main {
             System.out.println("XML výstup:");
             System.out.println(xmlData);
 
-
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
