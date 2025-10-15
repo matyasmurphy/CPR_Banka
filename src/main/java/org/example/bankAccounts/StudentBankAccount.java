@@ -3,7 +3,7 @@ package org.example.bankAccounts;
 import org.example.people.BasePerson;
 
 
-public class StudentBankAccount extends BaseBankAccount{
+public class StudentBankAccount extends BankAccountWithPaymentCard {
 
     private String school;
 

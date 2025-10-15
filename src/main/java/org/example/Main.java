@@ -1,14 +1,18 @@
 package org.example;
 
+import org.example.bankAccounts.BankAccountWithPaymentCard;
 import org.example.bankAccounts.BaseBankAccount;
-import org.example.factories.BankAccountFactory;
+import org.example.cards.PaymentCard;
+import org.example.cards.PaymentCardFactory;
+import org.example.bankAccounts.factories.BankAccountFactory;
 import org.example.factories.CustomerFactory;
-import org.example.numGenerator.NumberGenerator;
+import org.example.bankAccounts.numGenerator.NumberGenerator;
 import org.example.people.BankAccountOwner;
 import org.example.people.BasePerson;
 import org.example.serialization.BankAccountOwnerJsonSerializationService;
-import org.example.service.BankAccountService;
-import org.example.service.VerifyBankAccount;
+import org.example.bankAccounts.services.BankAccountService;
+import org.example.bankAccounts.services.VerifyBankAccount;
+import org.example.serialization.BankAccountOwnerXmlSerializationService;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -28,7 +32,7 @@ public class Main {
                     "John",
                     "Smith"
             );
-            BaseBankAccount account = bankAccountFactory.createBankAccount(
+            BankAccountWithPaymentCard account = bankAccountFactory.createBankAccount(
                     "u-123",
                     accountNumber,
                     owner,
@@ -50,24 +54,51 @@ public class Main {
             bankAccountService.withdraw(account, 50);
             System.out.println("Balance: " + account.getBalance());
 
+            PaymentCardFactory paymentCardFactory = new PaymentCardFactory();
+            PaymentCard paymentCard = paymentCardFactory.create();
+
+            System.out.println("=== PLATEBNÍ KARTY ===");
+
+            account.addPaymentCard(paymentCard);
+
+            System.out.println("Platební karta byla přidána k účtu");
+            System.out.println("Karta:");
+            System.out.println("Cislo: " + paymentCard.getCardNumber());
+            System.out.println("CVV: " + paymentCard.getCvv());
+            System.out.println("Expirace: " + paymentCard.getExpirationMonth() + "/" + paymentCard.getExpirationYear());
+            System.out.println("PIN: " + paymentCard.getPin());
+
+            System.out.println();
+            System.out.println("Karty na uctu majitele " + owner.getFullName() + ":");
+
+            for (PaymentCard card : account.getPaymentCardsMap().values()) {
+                System.out.println("  - Karta c . " + card.getCardNumber() +
+                        " (exp: " + card.getExpirationMonth() + "/" + card.getExpirationYear() + ")");
+            }
+
             BankAccountOwner bankAccountOwner = customerFactory.createBankAccountOwner(
                     "owner-456",
                     "987654321",
-                    owner,  // Použijeme stejného majitele jako u účtu
-                    account.getBalance()  // Použijeme aktuální zůstatek
+                    owner,
+                    account.getBalance()
             );
 
-            BankAccountOwnerJsonSerializationService serializationService =
+            // JSON serializace
+            BankAccountOwnerJsonSerializationService jsonService =
                     new BankAccountOwnerJsonSerializationService();
 
-            System.out.println("\n1) SERIALIZACE DO JSON:");
-            String jsonData = serializationService.serialize(bankAccountOwner);
-            System.out.println("JSON výstup:");
+            System.out.println();
+            System.out.println("1) SERIALIZACE DO JSON:");
+            String jsonData = jsonService.serialize(bankAccountOwner);
             System.out.println(jsonData);
 
-            System.out.println("\n2) SERIALIZACE DO XML:");
-            String xmlData = serializationService.serializeXml(bankAccountOwner);
-            System.out.println("XML výstup:");
+            // XML serializace
+            BankAccountOwnerXmlSerializationService xmlService =
+                    new BankAccountOwnerXmlSerializationService();
+
+            System.out.println();
+            System.out.println("2) SERIALIZACE DO XML:");
+            String xmlData = xmlService.serialize(bankAccountOwner);
             System.out.println(xmlData);
 
         } catch (Exception e) {
@@ -75,28 +106,3 @@ public class Main {
         }
     }
 }
-    /*
-    private static BaseBankAccount testBankAccount(BaseBankAccountOwner owner) {
-        BankAccountService bankAccountService = new BankAccountService();
-        BankAccountFactory bankAccountFactory = new BankAccountFactory();
-
-        String accountNumber = NumberGenerator.generateNumber() + "";
-
-        BaseBankAccount account = bankAccountFactory.createBankAccount(
-                "u-123",
-                accountNumber,
-                owner,
-                100
-        );
-
-        try {
-            System.out.println("Uuid: " + owner.getUuid());
-            System.out.println("Name: " + owner.getFullName());
-            System.out.println("School: " + ((Student) owner).getSchool());
-
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-
-    }
-}   */

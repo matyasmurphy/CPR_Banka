@@ -1,19 +1,20 @@
 package org.example.serialization;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.example.people.BankAccountOwner;
 import org.example.people.BasePerson;
 import org.example.people.serialization.BankAccountOwnerSerialization;
 import org.example.people.serialization.BankAccountSerializationFactory;
 
-public class BankAccountOwnerJsonSerializationService implements Serialization {
+public class BankAccountOwnerXmlSerializationService implements Serialization {
 
     private final BankAccountSerializationFactory bankAccountSerializationFactory;
-    private final Gson gson;
+    private final XmlMapper xmlMapper;
 
-    public BankAccountOwnerJsonSerializationService() {
+    public BankAccountOwnerXmlSerializationService() {
         this.bankAccountSerializationFactory = new BankAccountSerializationFactory();
-        this.gson = new Gson();
+        this.xmlMapper = new XmlMapper();
     }
 
     @Override
@@ -27,16 +28,24 @@ public class BankAccountOwnerJsonSerializationService implements Serialization {
                         ((BankAccountOwner) bankAccountOwner).getOwner()
                 );
 
-        return gson.toJson(bankAccountOwnerSerialization);
+        try {
+            return xmlMapper.writeValueAsString(bankAccountOwnerSerialization);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to serialize to XML", e);
+        }
     }
 
     @Override
     public Object deserialize(String serializedData) {
-        return gson.fromJson(serializedData, BankAccountOwnerSerialization.class);
+        try {
+            return xmlMapper.readValue(serializedData, BankAccountOwnerSerialization.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to deserialize from XML", e);
+        }
     }
 
     public static void main(String[] args) {
-        BankAccountOwnerJsonSerializationService service = new BankAccountOwnerJsonSerializationService();
+        BankAccountOwnerXmlSerializationService service = new BankAccountOwnerXmlSerializationService();
         BankAccountOwner owner = new BankAccountOwner(
                 "101",
                 "100",
@@ -44,7 +53,7 @@ public class BankAccountOwnerJsonSerializationService implements Serialization {
                 100
         );
 
-        System.out.println("JSON Output:");
+        System.out.println("XML Output:");
         System.out.println(service.serialize(owner));
     }
 }
