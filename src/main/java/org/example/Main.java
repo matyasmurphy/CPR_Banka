@@ -58,7 +58,7 @@ public class Main {
             PaymentCardFactory paymentCardFactory = new PaymentCardFactory();
             PaymentCard paymentCard = paymentCardFactory.create(account);
 
-            System.out.println("=== PLATEBNI KARTY ===");
+            System.out.println("=== KARTY ===");
 
             account.addPaymentCard(paymentCard);
 
