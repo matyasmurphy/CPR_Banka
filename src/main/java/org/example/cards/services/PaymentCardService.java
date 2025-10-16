@@ -8,8 +8,19 @@ public class PaymentCardService {
 
     BankAccountService bankAccountService = new BankAccountService();
 
-    public void pay(PaymentCard paymentCard, double amount) {
-        BankAccountWithPaymentCard bankAccount = paymentCard.getBankAccount();
-        bankAccountService.withdraw(bankAccount, amount);
+    public void pay(String cardNumber, BankAccountWithPaymentCard account, double amount) {
+        PaymentCard card = account.getPaymentCardsMap().get(cardNumber);
+
+        if (card == null) {
+            throw new IllegalArgumentException("Card not found");
+        }
+
+        if (!card.getBankAccount().equals(account)) {
+            throw new IllegalArgumentException("Card does not belong to this account");
+        }
+
+        bankAccountService.withdraw(account, amount);
+
+        System.out.println("Payment of " + amount + " using card " + cardNumber);
     }
 }

@@ -70,7 +70,7 @@ public class Main {
             System.out.println("    PIN: " + paymentCard.getPin());
 
             System.out.println();
-            paymentCardService.pay(paymentCard, 100);
+            paymentCardService.pay(paymentCard.getCardNumber(), account, 100);
             System.out.println("Balance after using card: " + account.getBalance());
 
             PaymentCard retrievedCard = account.getPaymentCardsMap().get(paymentCard.getCardNumber());
