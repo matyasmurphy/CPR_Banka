@@ -1,10 +1,10 @@
 package org.example;
 
 import org.example.bankAccounts.BankAccountWithPaymentCard;
-import org.example.bankAccounts.BaseBankAccount;
 import org.example.cards.PaymentCard;
-import org.example.cards.PaymentCardFactory;
+import org.example.cards.factories.PaymentCardFactory;
 import org.example.bankAccounts.factories.BankAccountFactory;
+import org.example.cards.services.PaymentCardService;
 import org.example.factories.CustomerFactory;
 import org.example.bankAccounts.numGenerator.NumberGenerator;
 import org.example.people.BankAccountOwner;
@@ -26,6 +26,7 @@ public class Main {
             BankAccountFactory bankAccountFactory = new BankAccountFactory();
             CustomerFactory customerFactory = new CustomerFactory();
             VerifyBankAccount verifyBankAccount = new VerifyBankAccount();
+            PaymentCardService paymentCardService = new PaymentCardService();
 
             BasePerson owner = customerFactory.createBaseBankAccountOwner(
                     accountNumber,
@@ -47,7 +48,7 @@ public class Main {
             System.out.println("Balance: " + account.getBalance());
 
             System.out.println((""));
-            bankAccountService.deposit(account, 100000);
+            bankAccountService.deposit(account, 200);
             System.out.println("Balance: " + account.getBalance());
 
             System.out.println((""));
@@ -55,26 +56,29 @@ public class Main {
             System.out.println("Balance: " + account.getBalance());
 
             PaymentCardFactory paymentCardFactory = new PaymentCardFactory();
-            PaymentCard paymentCard = paymentCardFactory.create();
+            PaymentCard paymentCard = paymentCardFactory.create(account);
 
-            System.out.println("=== PLATEBNÍ KARTY ===");
+            System.out.println("=== PLATEBNI KARTY ===");
 
             account.addPaymentCard(paymentCard);
 
-            System.out.println("Platební karta byla přidána k účtu");
+            System.out.println("Platebni karta byla pridana k uctu");
             System.out.println("Karta:");
-            System.out.println("Cislo: " + paymentCard.getCardNumber());
-            System.out.println("CVV: " + paymentCard.getCvv());
-            System.out.println("Expirace: " + paymentCard.getExpirationMonth() + "/" + paymentCard.getExpirationYear());
-            System.out.println("PIN: " + paymentCard.getPin());
+            System.out.println("    Cislo: " + paymentCard.getCardNumber());
+            System.out.println("    CVV: " + paymentCard.getCvv());
+            System.out.println("    Expirace: " + paymentCard.getExpirationMonth() + "/" + paymentCard.getExpirationYear());
+            System.out.println("    PIN: " + paymentCard.getPin());
 
             System.out.println();
-            System.out.println("Karty na uctu majitele " + owner.getFullName() + ":");
+            paymentCardService.pay(paymentCard, 100);
+            System.out.println("Balance after using card: " + account.getBalance());
 
-            for (PaymentCard card : account.getPaymentCardsMap().values()) {
-                System.out.println("  - Karta c . " + card.getCardNumber() +
-                        " (exp: " + card.getExpirationMonth() + "/" + card.getExpirationYear() + ")");
-            }
+            PaymentCard retrievedCard = account.getPaymentCardsMap().get(paymentCard.getCardNumber());
+            System.out.println("Card found:");
+            System.out.println("    Cislo: " + retrievedCard.getCardNumber());
+            System.out.println("    CVV: " + retrievedCard.getCvv());
+            System.out.println("    Expirace: " + retrievedCard.getExpirationMonth() + "/" + retrievedCard.getExpirationYear());
+            System.out.println("    PIN: " + retrievedCard.getPin());
 
             BankAccountOwner bankAccountOwner = customerFactory.createBankAccountOwner(
                     "owner-456",

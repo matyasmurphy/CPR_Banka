@@ -1,7 +1,5 @@
 package org.example.bankAccounts;
 
-import org.example.cards.PaymentCard;
-import org.example.cards.PaymentCardFactory;
 import org.example.people.BasePerson;
 
 import java.util.HashMap;

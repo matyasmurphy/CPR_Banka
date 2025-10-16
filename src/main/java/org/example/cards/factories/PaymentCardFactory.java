@@ -1,4 +1,7 @@
-package org.example.cards;
+package org.example.cards.factories;
+
+import org.example.bankAccounts.BankAccountWithPaymentCard;
+import org.example.cards.*;
 
 import java.util.UUID;
 
@@ -9,7 +12,7 @@ public class PaymentCardFactory {
     private final PaymentCardPinGenerator paymentCardPinGenerator = new PaymentCardPinGenerator();
     private final PaymentCardExirationCalculator paymentCardExirationCalculator = new PaymentCardExirationCalculator();
 
-    public PaymentCard create() {
+    public PaymentCard create(BankAccountWithPaymentCard bankAccount) {
         String uuid = UUID.randomUUID().toString();
         String cardNumber = this.paymentCardNumberGenerator.generateNumber();
         String cvv = this.paymentCardCvvGenerator.generateCardCvv();
@@ -17,7 +20,7 @@ public class PaymentCardFactory {
         String expirationMonth = paymentCardExirationCalculator.calculateExpirationMonth();
         String expirationYear = paymentCardExirationCalculator.calculateExpirationYear();
 
-        PaymentCard paymentCard = new PaymentCard(uuid, cardNumber, cvv, pin, expirationMonth, expirationYear);
+        PaymentCard paymentCard = new PaymentCard(uuid, cardNumber, cvv, pin, expirationMonth, expirationYear, bankAccount);
 
         return paymentCard;
     }
