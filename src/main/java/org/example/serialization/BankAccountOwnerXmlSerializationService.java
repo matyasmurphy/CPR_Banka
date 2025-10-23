@@ -43,17 +43,4 @@ public class BankAccountOwnerXmlSerializationService implements Serialization {
             throw new RuntimeException("Failed to deserialize from XML", e);
         }
     }
-
-    public static void main(String[] args) {
-        BankAccountOwnerXmlSerializationService service = new BankAccountOwnerXmlSerializationService();
-        BankAccountOwner owner = new BankAccountOwner(
-                "101",
-                "100",
-                new BasePerson("100", "Tomas", "Krtecek"),
-                100
-        );
-
-        System.out.println("XML Output:");
-        System.out.println(service.serialize(owner));
-    }
 }

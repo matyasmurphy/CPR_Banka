@@ -34,17 +34,4 @@ public class BankAccountOwnerJsonSerializationService implements Serialization {
     public Object deserialize(String serializedData) {
         return gson.fromJson(serializedData, BankAccountOwnerSerialization.class);
     }
-
-    public static void main(String[] args) {
-        BankAccountOwnerJsonSerializationService service = new BankAccountOwnerJsonSerializationService();
-        BankAccountOwner owner = new BankAccountOwner(
-                "101",
-                "100",
-                new BasePerson("100", "Tomas", "Krtecek"),
-                100
-        );
-
-        System.out.println("JSON Output:");
-        System.out.println(service.serialize(owner));
-    }
 }

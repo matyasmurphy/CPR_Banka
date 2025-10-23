@@ -3,10 +3,11 @@ package org.example.cards.services;
 import org.example.bankAccounts.BankAccountWithPaymentCard;
 import org.example.bankAccounts.services.BankAccountService;
 import org.example.cards.PaymentCard;
+import org.example.logger.Logger;
 
 public class PaymentCardService {
-
-    BankAccountService bankAccountService = new BankAccountService();
+    Logger logger = new Logger();
+    BankAccountService bankAccountService = new BankAccountService(logger);
 
     public void pay(String cardNumber, BankAccountWithPaymentCard account, double amount) {
         PaymentCard card = account.getPaymentCardsMap().get(cardNumber);

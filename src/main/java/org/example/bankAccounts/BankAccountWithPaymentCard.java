@@ -22,5 +22,4 @@ public class BankAccountWithPaymentCard extends BaseBankAccount{
     public Map<String, PaymentCard> getPaymentCardsMap() {
         return new HashMap<>(paymentCardsMap);
     }
-
 }
