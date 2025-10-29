@@ -1,20 +1,19 @@
 package org.example.serialization;
 
 import com.google.gson.Gson;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.example.people.BankAccountOwner;
 import org.example.people.BasePerson;
 import org.example.people.serialization.BankAccountOwnerSerialization;
 import org.example.people.serialization.BankAccountSerializationFactory;
 
+@Singleton
 public class BankAccountOwnerJsonSerializationService implements Serialization {
-
-    private final BankAccountSerializationFactory bankAccountSerializationFactory;
-    private final Gson gson;
-
-    public BankAccountOwnerJsonSerializationService() {
-        this.bankAccountSerializationFactory = new BankAccountSerializationFactory();
-        this.gson = new Gson();
-    }
+    @Inject
+    BankAccountSerializationFactory bankAccountSerializationFactory;
+    @Inject
+    Gson gson;
 
     @Override
     public String serialize(Object bankAccountOwner) {

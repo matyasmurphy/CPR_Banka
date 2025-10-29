@@ -1,15 +1,20 @@
 package org.example.bankAccounts.services;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.example.bankAccounts.BaseBankAccount;
+import org.example.bankAccounts.factories.BankAccountFactory;
+import org.example.logger.ConsoleLogger;
 import org.example.logger.Logger;
 
+import java.util.Map;
+
+@Singleton
 public class BankAccountService {
 
-    private final Logger logger;
+    @Inject
+    private Logger logger;
 
-    public BankAccountService(Logger logger) {
-        this.logger = logger;
-    }
     public void deposit(BaseBankAccount account, double amount) {
         if (amount<= 0) {
             throw new IllegalArgumentException("Amount must be positive");
@@ -24,7 +29,6 @@ public class BankAccountService {
         verifyBankAccount.verifyMoney(account);
 
         logger.log(account.getUuid() + " | Deposit: +" + amount);
-        account.setBalance(account.getBalance() + amount);
     }
 
     public void withdraw(BaseBankAccount account, double amount) {
@@ -36,7 +40,6 @@ public class BankAccountService {
         double newBalance = account.getBalance() - amount;
         account.setBalance(newBalance);
 
-        logger.log(account.getUuid() + " | Withdraw: +" + amount);
-        account.setBalance(account.getBalance() + amount);
+        logger.log(account.getUuid() + " | Withdraw: -" + amount);
     }
 }

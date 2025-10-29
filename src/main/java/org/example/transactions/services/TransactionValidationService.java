@@ -1,7 +1,9 @@
 package org.example.transactions.services;
 
+import com.google.inject.Singleton;
 import org.example.bankAccounts.BaseBankAccount;
 
+@Singleton
 public class TransactionValidationService {
 
     private final int AML_CHECK_LIMIT = 10000;

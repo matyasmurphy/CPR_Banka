@@ -1,5 +1,8 @@
 package org.example.bankAccounts.numGenerator;
 
+import com.google.inject.Singleton;
+
+@Singleton
 public class NumberGenerator {
 
     public int generateNumber() {

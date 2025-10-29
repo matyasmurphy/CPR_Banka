@@ -1,9 +1,11 @@
 package org.example.factories;
 
+import com.google.inject.Singleton;
 import org.example.people.BankAccountOwner;
 import org.example.people.BasePerson;
 import org.example.people.Student;
 
+@Singleton
 public class CustomerFactory {
 
     public BasePerson createBaseBankAccountOwner(String uuid, String firstName, String lastName){

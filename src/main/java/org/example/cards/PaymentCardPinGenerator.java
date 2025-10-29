@@ -1,7 +1,9 @@
 package org.example.cards;
 
-import java.security.SecureRandom;
+import com.google.inject.Singleton;
 
+import java.security.SecureRandom;
+@Singleton
 public class PaymentCardPinGenerator {
     private static final byte DEFAULT_PIN_LENGTH = 4;
 

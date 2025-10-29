@@ -1,11 +1,9 @@
 package org.example.bankAccounts;
-
 import org.example.cards.PaymentCard;
 import org.example.people.BasePerson;
 
 import java.util.HashMap;
 import java.util.Map;
-
 public class BankAccountWithPaymentCard extends BaseBankAccount{
     protected Map<String, PaymentCard> paymentCardsMap;
 

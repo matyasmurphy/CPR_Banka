@@ -1,8 +1,10 @@
 package org.example.cards;
 
+import com.google.inject.Singleton;
+
 import java.security.SecureRandom;
 import java.util.UUID;
-
+@Singleton
 public class PaymentCardNumberGenerator {
 
     private static final SecureRandom RANDOM = new SecureRandom();

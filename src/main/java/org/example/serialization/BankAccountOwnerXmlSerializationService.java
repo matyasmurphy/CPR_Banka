@@ -2,20 +2,21 @@ package org.example.serialization;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.example.people.BankAccountOwner;
 import org.example.people.BasePerson;
 import org.example.people.serialization.BankAccountOwnerSerialization;
 import org.example.people.serialization.BankAccountSerializationFactory;
 
+@Singleton
 public class BankAccountOwnerXmlSerializationService implements Serialization {
 
-    private final BankAccountSerializationFactory bankAccountSerializationFactory;
-    private final XmlMapper xmlMapper;
+    @Inject
+    BankAccountSerializationFactory bankAccountSerializationFactory;
 
-    public BankAccountOwnerXmlSerializationService() {
-        this.bankAccountSerializationFactory = new BankAccountSerializationFactory();
-        this.xmlMapper = new XmlMapper();
-    }
+    @Inject
+    XmlMapper xmlMapper;
 
     @Override
     public String serialize(Object bankAccountOwner) {

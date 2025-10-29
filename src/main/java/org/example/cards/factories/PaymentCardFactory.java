@@ -1,16 +1,23 @@
 package org.example.cards.factories;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.example.bankAccounts.BankAccountWithPaymentCard;
 import org.example.cards.*;
+import org.example.cards.services.PaymentCardService;
 
 import java.util.UUID;
-
+@Singleton
 public class PaymentCardFactory {
+    @Inject
+    private PaymentCardNumberGenerator paymentCardNumberGenerator;
+    @Inject
+    private PaymentCardCvvGenerator paymentCardCvvGenerator;
+    @Inject
+    private PaymentCardPinGenerator paymentCardPinGenerator;
+    @Inject
+    private PaymentCardExirationCalculator paymentCardExirationCalculator;
 
-    private final PaymentCardNumberGenerator paymentCardNumberGenerator = new PaymentCardNumberGenerator();
-    private final PaymentCardCvvGenerator paymentCardCvvGenerator = new PaymentCardCvvGenerator();
-    private final PaymentCardPinGenerator paymentCardPinGenerator = new PaymentCardPinGenerator();
-    private final PaymentCardExirationCalculator paymentCardExirationCalculator = new PaymentCardExirationCalculator();
 
     public PaymentCard create(BankAccountWithPaymentCard bankAccount) {
         String uuid = UUID.randomUUID().toString();
