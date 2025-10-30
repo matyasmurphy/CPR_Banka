@@ -13,6 +13,7 @@ import org.example.factories.CustomerFactory;
 import org.example.logger.Logger;
 import org.example.people.BasePerson;
 
+
 @Singleton
 public class App {
     @Inject
