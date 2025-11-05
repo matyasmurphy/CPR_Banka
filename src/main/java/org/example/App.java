@@ -3,15 +3,18 @@ package org.example;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.example.bankAccounts.BankAccountWithPaymentCard;
+import org.example.bankAccounts.SavingBankAccount;
 import org.example.bankAccounts.factories.BankAccountFactory;
 import org.example.bankAccounts.numGenerator.NumberGenerator;
 import org.example.bankAccounts.services.BankAccountService;
 import org.example.cards.*;
 import org.example.cards.factories.PaymentCardFactory;
 import org.example.cards.services.PaymentCardService;
+import org.example.cron.IntrestCronService;
 import org.example.factories.CustomerFactory;
 import org.example.logger.Logger;
 import org.example.people.BasePerson;
+import org.example.storage.BankAccountStorage;
 
 
 @Singleton
@@ -37,6 +40,12 @@ public class App {
     @Inject
     public PaymentCardService paymentCardService;
 
+    @Inject
+    public BankAccountStorage bankAccountStorage;
+
+    @Inject
+    public IntrestCronService intrestCronService;
+
     public void run(){
         try {
 
@@ -47,11 +56,19 @@ public class App {
                     "Smith"
             );
             BankAccountWithPaymentCard account = bankAccountFactory.createBankAccount(
+                    "u-125",
+                    accountNumber,
+                    owner,
+                    100
+            );
+
+            SavingBankAccount savingAccount = bankAccountFactory.createSavingBankAccount(
                     "u-123",
                     accountNumber,
                     owner,
                     100
             );
+
             System.out.println(("ACCOUNT:"));
             System.out.println("Uuid: " + owner.getUuid());
             System.out.println("Name: " + owner.getFullName());
@@ -84,6 +101,16 @@ public class App {
             System.out.println();
             paymentCardService.pay(paymentCard.getCardNumber(), account, 100);
             System.out.println("Balance after using card: " + account.getBalance());
+
+            System.out.println();
+            System.out.println("=== BANK ACCOUNT STORAGE ===");
+            System.out.println("Stored accounts: " + bankAccountStorage.getBankAccountsMap().size());
+            bankAccountStorage.getBankAccountsMap().forEach((uuid, acc) -> {
+                System.out.println("  UUID: " + uuid + ", Account: " + acc.getAccountNumber());
+            });
+
+            intrestCronService.IntrestTimer();
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
