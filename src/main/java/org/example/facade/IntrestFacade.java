@@ -23,7 +23,7 @@ public class IntrestFacade {
         bankAccountStorage.getBankAccountsMap().forEach((uuid, account) -> {
             if (account instanceof SavingBankAccount){
                 System.out.println("  UUID: " + uuid + ", Account: " + account.getAccountNumber() + " IS SAVING ACCOUNT");
-                double intrestMoney = bankAccountIntrestService.calculateIntrest(account, 0.4);
+                double intrestMoney = bankAccountIntrestService.calculateIntrest(account, ((SavingBankAccount) account).interestRate);
                 System.out.println("Current balance: " + account.getBalance() + " + " + intrestMoney + " of intrest");
                 bankAccountService.deposit(account, intrestMoney);
                 System.out.println("Current balance: " + account.getBalance());

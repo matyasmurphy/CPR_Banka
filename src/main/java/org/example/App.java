@@ -66,7 +66,8 @@ public class App {
                     "u-123",
                     accountNumber,
                     owner,
-                    100
+                    100,
+                    0.4
             );
 
             System.out.println(("ACCOUNT:"));

@@ -26,8 +26,8 @@ public class BankAccountFactory {
         return account;
     }
 
-    public SavingBankAccount createSavingBankAccount(String uuid, String accountNumber, BasePerson owner, double balance) {
-        SavingBankAccount account = new SavingBankAccount(uuid, accountNumber, owner, balance);
+    public SavingBankAccount createSavingBankAccount(String uuid, String accountNumber, BasePerson owner, double balance, double interestRate) {
+        SavingBankAccount account = new SavingBankAccount(uuid, accountNumber, owner, balance, interestRate);
         bankAccountStorage.addBankAccount(account);
         System.out.println("Account Added: " + account);
         return account;
