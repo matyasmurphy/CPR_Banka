@@ -33,7 +33,6 @@ public class IntrestFacade {
 
                 //Period period = Period.between(lastInterest, today);
                 //int monthsPassed = period.getYears() * 12 + period.getMonths();
-
                 long minutesPassed = ChronoUnit.MINUTES.between(lastInterest, today);
 
                 if (minutesPassed >= 2) {
