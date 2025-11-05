@@ -78,6 +78,15 @@ public class App {
             System.out.println("Account Number: " + account.getAccountNumber());
             System.out.println("Balance: " + account.getBalance());
 
+            System.out.println(("SAVING ACCOUNT:"));
+            System.out.println("Uuid: " + owner.getUuid());
+            System.out.println("Name: " + owner.getFullName());
+            System.out.println();
+            System.out.println("Uuid: " + savingAccount.getUuid());
+            System.out.println("Account Number: " + savingAccount.getAccountNumber());
+            System.out.println("Balance: " + savingAccount.getBalance());
+            System.out.println("Date Opened: " + savingAccount.getDateOpened());
+
             System.out.println();
             bankAccountService.deposit(account, 200);
             System.out.println("Balance: " + account.getBalance());
