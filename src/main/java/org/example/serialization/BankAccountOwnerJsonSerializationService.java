@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.example.people.BankAccountOwner;
-import org.example.people.BasePerson;
 import org.example.people.serialization.BankAccountOwnerSerialization;
 import org.example.people.serialization.BankAccountSerializationFactory;
 
@@ -12,6 +11,7 @@ import org.example.people.serialization.BankAccountSerializationFactory;
 public class BankAccountOwnerJsonSerializationService implements Serialization {
     @Inject
     BankAccountSerializationFactory bankAccountSerializationFactory;
+
     @Inject
     Gson gson;
 

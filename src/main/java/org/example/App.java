@@ -11,10 +11,21 @@ import org.example.cards.*;
 import org.example.cards.factories.PaymentCardFactory;
 import org.example.cards.services.PaymentCardService;
 import org.example.cron.IntrestCronService;
+import org.example.cron.QuartzSchedulerService;
+import org.example.cron.TransactionHistoryJob;
 import org.example.factories.CustomerFactory;
+import org.example.factories.GuiceJobFactory;
 import org.example.logger.Logger;
 import org.example.people.BasePerson;
+import org.example.services.TransactionHistoryService;
 import org.example.storage.BankAccountStorage;
+import org.example.transactions.Transaction;
+import org.example.transactions.manager.TransactionManager;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.impl.StdSchedulerFactory;
+
+import java.util.ArrayList;
 
 
 @Singleton
@@ -45,6 +56,18 @@ public class App {
 
     @Inject
     public IntrestCronService intrestCronService;
+
+    @Inject
+    public TransactionManager transactionManager;
+
+    @Inject
+    public TransactionHistoryService transactionHistoryService;
+
+    @Inject
+    public GuiceJobFactory  guiceJobFactory;
+
+    @Inject
+    public QuartzSchedulerService quartzSchedulerService;
 
     public void run(){
         try {
@@ -118,9 +141,32 @@ public class App {
             bankAccountStorage.getBankAccountsMap().forEach((uuid, acc) -> {
                 System.out.println("  UUID: " + uuid + ", Account: " + acc.getAccountNumber());
             });
+            System.out.println("--------------------------------");
+            System.out.println("TRANSACTIONS");
+            ArrayList<Transaction> transactions = transactionManager.getTransactions();
+            System.out.println("Number of transactions: " + transactions.size());
+
+            for (Transaction transaction : transactions) {
+                System.out.println("  Date: " + transaction.getDate());
+                System.out.println("  Account: " + transaction.getAccountUuid());
+                System.out.println("  Type: " + transaction.getTransactionType());
+                System.out.println("  Amount: " + transaction.getAmount());
+                System.out.println("  ---");
+            }
+            System.out.println("--------------------------------");
 
             intrestCronService.IntrestTimer();
 
+            try {
+                Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+
+                scheduler.setJobFactory(guiceJobFactory);
+                scheduler.start();
+
+                quartzSchedulerService.scheduleJob(scheduler, TransactionHistoryJob.class, "group", 1);
+            } catch (SchedulerException e) {
+                throw new RuntimeException(e);
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
